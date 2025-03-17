@@ -138,9 +138,7 @@ namespace task2.ViewModels
             {
                 if (HoldElement != null)
                 {
-                    HoldElement.ParentFolder?.Elements.Remove(HoldElement);
-                    CurrentFolder.Elements.Add(HoldElement);
-                    HoldElement.ParentFolder = CurrentFolder;
+                    FileSystemElement.Move(HoldElement, CurrentFolder);
                     ResultInfo = $"Pasted {HoldElement.Name} into {CurrentFolder.Name}.";
                     HoldElement = null;
                     IsHold = false;
