@@ -1,0 +1,42 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="clr-namespace:task2.ViewModels"
+        xmlns:models="clr-namespace:task2.Models"
+        xmlns:converters="clr-namespace:task2.Converters"
+        x:Class="task2.Views.MainWindow"
+        x:DataType="vm:FileSystemViewModel"
+        Title="File System Demo"
+        Width="500" Height="400">
+  <Window.Resources>
+    <converters:FileFolderBackgroundConverter x:Key="FileFolderBackgroundConverter"/>
+  </Window.Resources>
+  <StackPanel Spacing="10" Margin="10">
+    <!-- Текущая папка -->
+    <TextBlock Text="Current Folder:" FontWeight="Bold" FontSize="16"/>
+    <TextBlock Text="{Binding CurrentFolder.Name}" FontWeight="Bold" FontSize="16"/>
+    
+    <!-- Список элементов с добавлением псевдоэлемента ".." -->
+    <ListBox ItemsSource="{Binding DisplayedElements}" 
+             SelectedItem="{Binding SelectedElement, Mode=TwoWay}" 
+             Height="200">
+      <ListBox.ItemTemplate>
+        <DataTemplate DataType="models:FileSystemElement">
+          <Border Background="{Binding Type, Converter={StaticResource FileFolderBackgroundConverter}}"
+                  CornerRadius="5" Padding="5" Margin="2">
+            <TextBlock Text="{Binding Name}" Foreground="Black"/>
+          </Border>
+        </DataTemplate>
+      </ListBox.ItemTemplate>
+    </ListBox>
+    
+    <!-- Кнопки для операций -->
+    <StackPanel Orientation="Horizontal" Spacing="5">
+      <Button Command="{Binding CopySelectedCommand}" Content="Copy" Width="80"/>
+      <Button Command="{Binding OpenFolderCommand}" Content="Open Folder" Width="100"/>
+      <Button Command="{Binding MoveOrPasteCommand}" Content="{Binding MoveButtonText}" Width="80"/>
+      <Button Command="{Binding GoBackCommand}" Content="Back" Width="80"/>
+    </StackPanel>
+    
+    <TextBlock Text="{Binding ResultInfo}" FontSize="14" Foreground="Blue"/>
+  </StackPanel>
+</Window>
