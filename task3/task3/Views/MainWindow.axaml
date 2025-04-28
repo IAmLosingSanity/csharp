@@ -1,0 +1,59 @@
+<Window
+  xmlns="https://github.com/avaloniaui"
+  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+  xmlns:converters="clr-namespace:task3.Converters"
+  xmlns:vm="clr-namespace:task3.ViewModels"
+  xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+  mc:Ignorable="d"
+  x:Class="task3.Views.MainWindow"
+  Width="600" Height="400"
+  Title="Конвейеры"
+  Background="#073642"
+  x:DataType="vm:MainViewModel">
+  
+  <d:Design.DataContext>
+    <vm:MainViewModel/>
+  </d:Design.DataContext>
+
+  <StackPanel Margin="10" Background="#002b36">
+    <Button Content="Добавить конвейер"
+            Command="{Binding AddConveyorCommand}"
+            Margin="0,0,0,10"
+            Background="#268bd2"
+            Foreground="#fdf6e3"
+            BorderBrush="#586e75"
+            BorderThickness="1"/>
+
+    <ItemsControl ItemsSource="{Binding Conveyors}">
+      <ItemsControl.ItemTemplate>
+        <DataTemplate x:DataType="vm:ConveyorViewModel">
+          <Border BorderBrush="Gray" BorderThickness="1" Margin="0,0,0,5" Padding="5">
+            <StackPanel Orientation="Horizontal" Spacing="10" VerticalAlignment="Center">
+              <!-- иконка -->
+              <TextBlock Text="{Binding StatusIcon}" FontSize="16" VerticalAlignment="Center"/>
+
+              <!-- прогрессбар загрузки -->
+              <ProgressBar Width="80" Height="16"
+                           Minimum="0" Maximum="1"
+                           Value="{Binding LoadingProgress}"
+                           IsVisible="{Binding IsLoading}"/>
+
+              <!-- прогрессбар ремонта -->
+              <ProgressBar Width="80" Height="16"
+                           Minimum="0" Maximum="1"
+                           Value="{Binding RepairProgress}"
+                           IsVisible="{Binding IsRepairing}"/>
+
+              <!-- остальная инфа -->
+              <TextBlock Text="Деталей: " VerticalAlignment="Center"/>
+              <TextBlock Text="{Binding DetailsOnBelt}" VerticalAlignment="Center"/>
+              <TextBlock Text="Статус: " VerticalAlignment="Center"/>
+              <TextBlock Text="{Binding StatusText}" VerticalAlignment="Center"/>
+            </StackPanel>
+          </Border>
+        </DataTemplate>
+      </ItemsControl.ItemTemplate>
+    </ItemsControl>
+  </StackPanel>
+</Window>
